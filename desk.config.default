@@ -4,3 +4,4 @@ setting:
   access_token: xxxxxxxxxx
   access_token_secret: xxxxxxxxxx
 host: yoursite.desk.com
+api_version: v2
