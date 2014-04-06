@@ -14,8 +14,11 @@ class Desk < Common
   end
 
   def case(id=nil)
-    return nil if id.nil?
-    Case.new( get("/api/#{@version}/cases/#{id}") )
+    Case.new( get("/api/#{@version}/cases/#{id}") ) unless id.nil?
+  end
+
+  def replies(id=nil)
+    Replies.new( get("/api/#{@version}/cases/#{id}/replies"), id) unless id.nil?
   end
 end
 

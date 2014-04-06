@@ -5,7 +5,7 @@ require_relative 'reply.rb'
 module Deskcom
 
 class Case < Common
-  attr_reader :id, :external_id, :blurb, :subject, :status, :type, :language, :created_at, :updated_at, :active_at, :received_at, :first_opened_at, :opened_at, :first_resolved_at, :resolved_at, :custom_fields, :message, :history, :replies
+  attr_reader :id, :external_id, :blurb, :subject, :priority, :status, :type, :label_ids, :language, :created_at, :updated_at, :active_at, :received_at, :first_opened_at, :opened_at, :first_resolved_at, :resolved_at, :custom_fields, :message, :history, :replies, :assigned_group, :uri, :customer
 
   def initialize(data)
     super
@@ -13,28 +13,71 @@ class Case < Common
     @external_id       = data['external_id']
     @blurb             = data['blurb']
     @subject           = data['subject']
+    @priority          = data['priority'].to_i rescue 0
     @status            = data['status']
     @type              = data['type']
+    @label_ids         = data['label_ids']
     @language          = data['language']
-    @created_at        = data['created_at'].nil?        ? nil : Time.parse(data['created_at'])
-    @updated_at        = data['updated_at'].nil?        ? nil : Time.parse(data['updated_at'])
-    @active_at         = data['active_at'].nil?         ? nil : Time.parse(data['active_at'])
-    @received_at       = data['received_at'].nil?       ? nil : Time.parse(data['received_at'])
-    @first_opened_at   = data['first_opened_at'].nil?   ? nil : Time.parse(data['first_opened_at'])
-    @opened_at         = data['opened_at'].nil?         ? nil : Time.parse(data['opened_at'])
-    @first_resolved_at = data['first_resolved_at'].nil? ? nil : Time.parse(data['first_resolved_at'])
-    @resolved_at       = data['resolved_at'].nil?       ? nil : Time.parse(data['resolved_at'])
-    @custom_fields     = data['custom_fields']
+    @created_at        = DateTime.strptime(data['created_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
+    @updated_at        = DateTime.strptime(data['updated_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
+    @active_at         = DateTime.strptime(data['active_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
+    @received_at       = DateTime.strptime(data['received_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
+    @first_opened_at   = DateTime.strptime(data['first_opened_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
+    @opened_at         = DateTime.strptime(data['opened_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
+    @first_resolved_at = DateTime.strptime(data['first_resolved_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
+    @resolved_at       = DateTime.strptime(data['resolved_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
+    @custom_fields     = data['custom_fields']['_type']
 
-    #@message  = data['_links']['message']['href'].nil? ? nil : get(data['_links']['message']['href'])
-    #@history  = data['_links']['history']['href'].nil? ? nil : get(data['_links']['history']['href'])
-    @replies = Replies.new( get("#{data['_links']['replies']['href']}" ) )
+    @uri            = data['_links']['self']['href']
+    @customer       = data['_links']['customer']['href']
+    @assigned_group = data['_links']['assigned_group']['href']
+    @message        = data['_links']['message']['href']
+    @history        = data['_links']['history']['href']
+    
+    @replies        = data['_links']['replies']['href']
+    #@replies  = Replies.new( get(data['_links']['replies']['href'] ) )
+
+  rescue =>e
+    STDERR.puts "Case.initialize: #{e.message}"
   end
 
   def reply(reply_id)
-    Reply.new( get("/api/#{@version}/cases/#{@id.to_i}/replies/#{reply_id.to_i}") )
+    @replies.entries[reply_id]
+    #Reply.new( get("/api/#{@version}/cases/#{@id}/replies/#{reply_id}") ) unless reply.nll?
+  rescue => e
+    STDERR.puts "Case.reply: #{e.message}"
   end
 
+  def tojson
+    {
+        'id'          => @id,
+        'external_id' => @external_id,
+        'blurb'       => @blurb,
+        'subject'     => @subject,
+        'priority'    => @priority,
+        'status'      => @status,
+        'type'        => @type,
+        'label_ids'   => @label_ids,
+        'language'    => @language,
+        'created_at'  => @created_at,
+        'updated_at'  => @updated_at,
+        'active_at'   => @active_at,
+        'received_at' => @received_at,
+        'first_opened_at' => @first_opened_at,
+        'opened_at'   => @opened_at,
+        'first_resolved_at' => @first_resolved_at,
+        'resolved_at' => @resolved_at,
+        'custom_fields' => @custom_fields,
+        'message'     => @message,
+        'history'     => @history,
+        'replies'     => @replies,
+        'assigned_group' => @assigned_group,
+        'self'        => @uri,
+        'customer'    => @customer,
+        'time'        => @created_at
+    }
+  end
+  
 end
 
 end
