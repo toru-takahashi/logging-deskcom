@@ -13,6 +13,11 @@ class Desk < Common
     Cases.new( get("/api/#{@version}/cases") )
   end
 
+  def case_search(since_updated_at=nil)
+    url = "/api/#{@version}/cases/search\?since_updated_at\=#{since_updated_at}" unless since_updated_at.nil?
+    Cases.new( get(url) )
+  end
+
   def case(id=nil)
     Case.new( get("/api/#{@version}/cases/#{id}") ) unless id.nil?
   end

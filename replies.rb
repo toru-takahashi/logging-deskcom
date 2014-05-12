@@ -7,6 +7,7 @@ class Replies < Common
   attr_reader :total_entries, :next, :previous, :entries
   def initialize(data, caseid)
     @total_entries = data['total_entries'].to_i rescue 0
+    
     #@next     = data['_links']['next'].nil?       ? nil : data['_links']['next']
     #@previous = data['_links']['previous'].nil?   ? nil : data['_links']['previous']
     @entries = Array.new

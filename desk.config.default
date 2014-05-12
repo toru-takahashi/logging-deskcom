@@ -5,3 +5,4 @@ setting:
   access_token_secret: xxxxxxxxxx
 host: yoursite.desk.com
 api_version: v2
+last_measurement_time: 0

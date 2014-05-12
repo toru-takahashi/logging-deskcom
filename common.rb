@@ -31,10 +31,12 @@ class Common
     STDERR.puts "common.ini: #{e.message}"
   end
 
-  def get(path)
+  def get(path, cnt_retry=0)
     response = @access_token.get(path)
     JSON.load(response.body) if response.code == '200'
   rescue => e
+    cnt_retry += 1
+    retry if cnt_retry < 5
     STDERR.puts "common.get: #{e.message}"
   end
 end
