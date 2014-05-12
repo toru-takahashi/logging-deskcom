@@ -31,7 +31,6 @@ begin
     TD.event.post('deskcase_test', deskcase.tojson)
     reply_list = desk.replies(cases.entries[i]['id'])
     for j in 0..(reply_list.total_entries-1) do
-      p reply_list.entries[j]
       unless reply_list.entries[j].nil?
         TD.event.post('deskreply_test', reply_list.entries[j].tojson) if reply_list.entries[j].created_at > last_measurement_time
       end
