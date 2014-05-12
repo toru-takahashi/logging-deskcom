@@ -4,36 +4,40 @@ require 'td'
 #connection to TD
 TreasureData::Logger.open_agent('td.support', :auto_create_table=>true)
 
-
 def load()
   config = YAML.load_file('desk.config')
   last_measurement_time = config['last_measurement_time']
+rescue Exception => e
+  STDERR.puts "load: #{e.message}"
 end
+
 def save(last_measurement_time)
   config = YAML.load_file('desk.config')
   config['last_measurement_time'] = last_measurement_time
-  YAML.dump(config)
+  open("desk.config","w") do |f|
+    YAML.dump(config,f)
+  end
+rescue Exception => e
+  STDERR.puts "save: #{e.message}"
 end
 
-#for i in 1..2000 do
-#  TD.event.post('testjson', {"time"=>1396855702,"data"=>{"test2"=>"#{i-1}","test1"=>i}})
-#end
 last_measurement_time = load()
 
 desk = Deskcom::Desk.new
 begin
   cases = desk.case_search(last_measurement_time)
   for i in 0..cases.total_entries-1 do
-    TD.event.post('deskcase', cases.entries[i].tojson)
-    replies = desk.replies(cases.entries[i]['id'])
-    for j in 0..(replies.total_entries-1) do
-      TD.event.post('deskreply', replies.entries[j].tojson) if replies.entries[j].created_at > last_measurement_time
+    deskcase = desk.case(cases.entries[i]['id'])
+    TD.event.post('deskcase_test', deskcase.tojson)
+    reply_list = desk.replies(cases.entries[i]['id'])
+    for j in 0..(reply_list.total_entries-1) do
+      p reply_list.entries[j]
+      unless reply_list.entries[j].nil?
+        TD.event.post('deskreply_test', reply_list.entries[j].tojson) if reply_list.entries[j].created_at > last_measurement_time
+      end
     end
   end
+  save(Time.now.to_i)
 rescue Exception => e
   STDERR.puts "main.initialize: #{e.message}"
 end
-
-save(Time.now.to_i - 300)
-
-#

@@ -18,14 +18,14 @@ class Case < Common
     @type              = data['type']
     @label_ids         = data['label_ids']
     @language          = data['language']
-    @created_at        = DateTime.strptime(data['created_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
-    @updated_at        = DateTime.strptime(data['updated_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
-    @active_at         = DateTime.strptime(data['active_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
-    @received_at       = DateTime.strptime(data['received_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
-    @first_opened_at   = DateTime.strptime(data['first_opened_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
-    @opened_at         = DateTime.strptime(data['opened_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
-    @first_resolved_at = DateTime.strptime(data['first_resolved_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
-    @resolved_at       = DateTime.strptime(data['resolved_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
+    @created_at        = DateTime.strptime(data['created_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue 0
+    @updated_at        = DateTime.strptime(data['updated_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue 0
+    @active_at         = DateTime.strptime(data['active_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue 0
+    @received_at       = DateTime.strptime(data['received_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue 0
+    @first_opened_at   = DateTime.strptime(data['first_opened_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue 0
+    @opened_at         = DateTime.strptime(data['opened_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue 0
+    @first_resolved_at = DateTime.strptime(data['first_resolved_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue 0
+    @resolved_at       = DateTime.strptime(data['resolved_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue 0
     @custom_fields     = data['custom_fields']['_type']
 
     @uri            = data['_links']['self']['href']

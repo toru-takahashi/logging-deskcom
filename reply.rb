@@ -3,7 +3,7 @@ require_relative 'common.rb'
 module Deskcom
 
 class Reply < Common
-  attr_reader :subject, :body, :status, :direction, :to, :from, :cc, :bcc, :client_type, :created_at, :updated_at, :uri, :case, :customer
+  attr_reader :subject, :body, :status, :direction, :to, :from, :cc, :bcc, :client_type, :created_at, :updated_at, :uri, :case, :customer, :caseid
   def initialize(data, caseid)
     @caseid      = caseid
     @subject     = data['subject']
@@ -15,8 +15,8 @@ class Reply < Common
     @cc          = data['cc']
     @bcc         = data['bcc']
     @client_type = data['client_type']
-    @created_at  = DateTime.strptime(data['created_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
-    @updated_at  = DateTime.strptime(data['updated_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue nil
+    @created_at  = DateTime.strptime(data['created_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue 0
+    @updated_at  = DateTime.strptime(data['updated_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue 0
     @uri         = data['_links']['self']['href']
     @case        = data['_links']['case']['href']
     @customer    = data['_links']['customer']['href']
