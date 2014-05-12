@@ -34,8 +34,7 @@ class Case < Common
     @message        = data['_links']['message']['href'] rescue nil
     @history        = data['_links']['history']['href'] rescue nil
     
-    @replies        = data['_links']['replies']['href']
-    #@replies  = Replies.new( get(data['_links']['replies']['href'] ) )
+    @replies        = data['_links']['replies']['href'] rescue nil
 
   rescue =>e
     STDERR.puts $@

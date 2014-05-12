@@ -17,9 +17,9 @@ class Reply < Common
     @client_type = data['client_type']
     @created_at  = DateTime.strptime(data['created_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue 0
     @updated_at  = DateTime.strptime(data['updated_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue 0
-    @uri         = data['_links']['self']['href']
-    @case        = data['_links']['case']['href']
-    @customer    = data['_links']['customer']['href']
+    @uri         = data['_links']['self']['href'] rescue nil
+    @case        = data['_links']['case']['href'] rescue nil
+    @customer    = data['_links']['customer']['href'] rescue nil
   rescue => e
     STDERR.puts $@
     STDERR.puts "Reply.initialize: #{e.message}"
