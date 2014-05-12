@@ -28,16 +28,17 @@ class Case < Common
     @resolved_at       = DateTime.strptime(data['resolved_at'],'%Y-%m-%dT%H:%M:%SZ').strftime('%s').to_i rescue 0
     @custom_fields     = data['custom_fields']['_type']
 
-    @uri            = data['_links']['self']['href']
-    @customer       = data['_links']['customer']['href']
-    @assigned_group = data['_links']['assigned_group']['href']
-    @message        = data['_links']['message']['href']
-    @history        = data['_links']['history']['href']
+    @uri            = data['_links']['self']['href'] rescue nil
+    @customer       = data['_links']['customer']['href'] rescue nil
+    @assigned_group = data['_links']['assigned_group']['href'] rescue nil
+    @message        = data['_links']['message']['href'] rescue nil
+    @history        = data['_links']['history']['href'] rescue nil
     
     @replies        = data['_links']['replies']['href']
     #@replies  = Replies.new( get(data['_links']['replies']['href'] ) )
 
   rescue =>e
+    STDERR.puts $@
     STDERR.puts "Case.initialize: #{e.message}"
   end
 
@@ -45,6 +46,7 @@ class Case < Common
     @replies.entries[reply_id]
     #Reply.new( get("/api/#{@version}/cases/#{@id}/replies/#{reply_id}") ) unless reply.nll?
   rescue => e
+    STDERR.puts $@
     STDERR.puts "Case.reply: #{e.message}"
   end
 

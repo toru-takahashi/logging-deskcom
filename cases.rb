@@ -16,6 +16,7 @@ class Cases < Common
       data = get("#{data['_links']['next']['href']}") unless data['_links']['next'].blank?
     end
   rescue => e
+    STDERR.puts $@
     STDERR.puts "Cases.initialize: #{e.message}"
   end
 end

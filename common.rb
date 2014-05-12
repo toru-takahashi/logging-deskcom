@@ -28,6 +28,7 @@ class Common
       :oauth_token_secret => config['setting']['access_token_secret']
     )
   rescue => e
+    STDERR.puts $@
     STDERR.puts "common.ini: #{e.message}"
   end
 
@@ -35,6 +36,7 @@ class Common
     response = @access_token.get(path)
     JSON.load(response.body) if response.code == '200'
   rescue => e
+    STDERR.puts $@
     cnt_retry += 1
     retry if cnt_retry < 5
     STDERR.puts "common.get: #{e.message}"

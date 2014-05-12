@@ -21,6 +21,7 @@ class Reply < Common
     @case        = data['_links']['case']['href']
     @customer    = data['_links']['customer']['href']
   rescue => e
+    STDERR.puts $@
     STDERR.puts "Reply.initialize: #{e.message}"
   end
 

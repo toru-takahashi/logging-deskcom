@@ -18,6 +18,7 @@ class Replies < Common
       @entries << Reply.new(reply_list[i], caseid)
     end
   rescue => e
+    STDERR.puts $@
     puts "replies.initialize: #{e.message}"
   end
 
