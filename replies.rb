@@ -11,9 +11,10 @@ class Replies < Common
     @entries = Array.new
 
     reply_list = data['_embedded']['entries'] rescue nil
-    
-    for i in 0..(@total_entries-1) do
-      @entries << Reply.new(reply_list[i], caseid)
+    if @total_entries > 0 then
+      for i in 0..(@total_entries-1) do
+        @entries << Reply.new(reply_list[i], caseid)
+      end
     end
   rescue => e
     STDERR.puts $@
