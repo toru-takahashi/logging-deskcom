@@ -10,10 +10,10 @@ class Replies < Common
     
     @entries = Array.new
 
-    reply_list = data['_embedded']['entries'] rescue nil
+    reply_list = data['_embedded']['entries'] rescue Array.new
     if @total_entries > 0 then
       for i in 0..(@total_entries-1) do
-        @entries << Reply.new(reply_list[i], caseid)
+        @entries << Reply.new(reply_list[i], caseid) rescue nil
       end
     end
   rescue => e

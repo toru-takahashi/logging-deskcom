@@ -13,7 +13,7 @@ class Cases < Common
       data['_embedded']['entries'].each_with_index do |value, index|
         @entries << value
       end
-      data = get("#{data['_links']['next']['href']}") unless data['_links']['next'].blank?
+      data = get("#{data['_links']['next']['href']}") rescue nil
     end
   rescue => e
     STDERR.puts $@
