@@ -34,7 +34,7 @@ begin
       next if i < 2490
       p "cases: #{i}"
       deskcase = desk.case(cases.entries[i]['id'])
-
+      p cases.entries[i]['id']
       TD.event.post('deskcase', deskcase.tojson)
 
       sleep(1)
@@ -42,7 +42,7 @@ begin
       replies = desk.replies(cases.entries[i]['id'])
 
       if replies.total_entries > 0 then
-        p "repliy total: #{reply_list.total_entries}"
+        p "repliy total: #{replies.total_entries}"
         for j in 0..replies.total_entries-1 do
           p "reply: #{j}"
           reply = desk.reply("#{replies.entries['_links']['self']['href']}", cases.entries[i]['id'])
