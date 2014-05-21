@@ -27,8 +27,7 @@ class Desk < Common
   end
 
   def reply(url=nil, caseid=nil)
-    p url
-    Reply.new( get(url), caseid) unless url.nil?
+    Reply.new( get("#{url}"), caseid) unless url.nil?
   end
 end
 

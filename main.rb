@@ -26,26 +26,18 @@ end
 last_measurement_time = load()
 
 desk = Deskcom::Desk.new
+
 begin
   cases = desk.case_search(last_measurement_time)
   if cases.total_entries > 0 then
-    p "cases total_entries: #{cases.total_entries}"
     for i in 0..cases.total_entries-1 do
-      next if i < 2490
-      p "cases: #{i}"
       deskcase = desk.case(cases.entries[i]['id'])
-      p cases.entries[i]['id']
       TD.event.post('deskcase', deskcase.tojson)
-
       sleep(1)
-
       replies = desk.replies(cases.entries[i]['id'])
-
       if replies.total_entries > 0 then
-        p "repliy total: #{replies.total_entries}"
         for j in 0..replies.total_entries-1 do
-          p "reply: #{j}"
-          reply = desk.reply("#{replies.entries['_links']['self']['href']}", cases.entries[i]['id'])
+          reply = desk.reply("#{replies.entries[j]['_links']['self']['href']}", cases.entries[i]['id'])
           TD.event.post('deskreply', reply.tojson) if reply.created_at > last_measurement_time
           sleep(1)
         end

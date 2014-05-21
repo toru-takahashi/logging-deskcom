@@ -32,8 +32,8 @@ class Common
     STDERR.puts "common.ini: #{e.message}"
   end
 
-  def get(path, cnt_retry=0)
-    response = @access_token.get(path)
+  def get(path=nil, cnt_retry=0)
+    response = @access_token.get(path) unless path.nil?
     JSON.load(response.body) if response.code == '200'
   rescue => e
     STDERR.puts $@
