@@ -3,7 +3,7 @@ require_relative 'common.rb'
 module Deskcom
 
 class Cases < Common
-  attr_reader :body, :total_entries, :next, :previous, :entries
+  attr_reader :total_entries, :entries
   def initialize(data)
     super
     @body = data
