@@ -1,0 +1,49 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (4.1.1)
+      i18n (~> 0.6, >= 0.6.9)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.1)
+      tzinfo (~> 1.1)
+    fluent-logger (0.4.9)
+      msgpack (>= 0.4.4, < 0.6.0, != 0.5.3, != 0.5.2, != 0.5.1, != 0.5.0)
+      yajl-ruby (~> 1.0)
+    hirb (0.7.2)
+    httpclient (2.3.4.1)
+    i18n (0.6.9)
+    json (1.8.1)
+    minitest (5.3.4)
+    msgpack (0.5.8)
+    oauth (0.4.7)
+    parallel (0.6.5)
+    rubyzip (0.9.9)
+    td (0.11.1)
+      hirb (>= 0.4.5)
+      msgpack (>= 0.4.4, < 0.6.0, != 0.5.3, != 0.5.2, != 0.5.1, != 0.5.0)
+      parallel (~> 0.6.1)
+      rubyzip (~> 0.9.9)
+      td-client (~> 0.8.60)
+      td-logger (~> 0.3.21)
+      yajl-ruby (~> 1.1.0)
+    td-client (0.8.61)
+      httpclient (~> 2.3.4)
+      json (>= 1.7.6)
+      msgpack (>= 0.4.4, < 0.6.0, != 0.5.3, != 0.5.2, != 0.5.1, != 0.5.0)
+    td-logger (0.3.23)
+      fluent-logger (~> 0.4.6)
+      msgpack (>= 0.4.4, < 0.6.0, != 0.5.3, != 0.5.2, != 0.5.1, != 0.5.0)
+      td-client (~> 0.8.51)
+    thread_safe (0.3.4)
+    tzinfo (1.2.1)
+      thread_safe (~> 0.1)
+    yajl-ruby (1.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activesupport
+  oauth
+  td (~> 0.11.1)

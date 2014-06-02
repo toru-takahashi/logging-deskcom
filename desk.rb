@@ -29,6 +29,14 @@ class Desk < Common
   def reply(url=nil, caseid=nil)
     Reply.new( get("#{url}"), caseid) unless url.nil?
   end
+
+  def labels
+    Lables.new( get("/api/#{@version}/labels") )
+  end
+
+  def label(id=nil)
+    Lable.new( get("/api/#{@version}/labels/#{id}") ) unless id.nil?
+  end
 end
 
 end
